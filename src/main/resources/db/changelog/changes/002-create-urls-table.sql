@@ -1,6 +1,6 @@
 --changeset hassan:002
 CREATE TABLE urls (
-                      id BIGSERIAL PRIMARY KEY,
+                      id  UUID PRIMARY KEY      DEFAULT gen_random_uuid(),
                       original_url TEXT NOT NULL,
                       short_code VARCHAR(10) NOT NULL UNIQUE,
                       created_by BIGINT NOT NULL REFERENCES users(id),

@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: urlshortener
+  datasource:
+    url: jdbc:postgresql://localhost:5432/urlshortener
+    username: urlshortener
+    password: urlshortener123
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+    liquibase:
+      change-log: classpath:db/changelog/db.changelog-master.yaml

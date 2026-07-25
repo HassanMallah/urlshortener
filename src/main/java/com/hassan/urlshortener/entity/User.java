@@ -30,11 +30,12 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private Roles role;
 
+    @Column(name = "google_id")
     private String googleId;
 
     private boolean enabled;
 
-    @Column(nullable = false)
+    @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
     @PrePersist

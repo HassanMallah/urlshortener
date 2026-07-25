@@ -1,7 +1,7 @@
 --changeset hassan:003
 CREATE TABLE click_logs (
                             id  UUID PRIMARY KEY      DEFAULT gen_random_uuid(),
-                            url_id BIGINT NOT NULL REFERENCES urls(id),
+                            url_id UUID NOT NULL REFERENCES urls(id),
                             ip_address VARCHAR(50),
                             country VARCHAR(100),
                             device VARCHAR(50),

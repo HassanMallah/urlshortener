@@ -1,6 +1,8 @@
 package com.hassan.urlshortener.controller;
 
 
+import com.hassan.urlshortener.dto.LoginRequestDTO;
+import com.hassan.urlshortener.dto.LoginResponseDTO;
 import com.hassan.urlshortener.dto.RegisterRequestDTO;
 import com.hassan.urlshortener.serivce.AuthService;
 import org.springframework.http.HttpStatus;
@@ -24,5 +26,11 @@ public class AuthController {
     public ResponseEntity<String> registerUser(@RequestBody RegisterRequestDTO registerRequest){
         authService.saveUser(registerRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequest){
+        LoginResponseDTO loginResponse = authService.login(loginRequest);
+        return ResponseEntity.ok(loginResponse);
     }
 }

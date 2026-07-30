@@ -2,18 +2,14 @@ package com.hassan.urlshortener.controller;
 
 import com.hassan.urlshortener.dto.ShortenRequest;
 import com.hassan.urlshortener.dto.UrlResponse;
-import com.hassan.urlshortener.entity.User;
 import com.hassan.urlshortener.serivce.UrlService;
 import jakarta.validation.Valid;
-import org.springframework.boot.webmvc.autoconfigure.WebMvcProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/urls")
@@ -31,5 +27,12 @@ public class UrlController {
         UrlResponse urlResponse = urlService.shortenUrl(shortenRequest);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(urlResponse);
+    }
+
+    @GetMapping("/my-urls")
+    public ResponseEntity<List<UrlResponse>> myUrls(@RequestParam UUID userId){
+
+        List<UrlResponse> allUrl = urlService.getMyUrls(userId);
+        return ResponseEntity.ok(allUrl);
     }
 }

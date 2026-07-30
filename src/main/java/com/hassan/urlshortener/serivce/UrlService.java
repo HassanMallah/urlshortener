@@ -9,7 +9,7 @@ import com.hassan.urlshortener.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -39,7 +39,7 @@ public class UrlService {
         url.setOriginalUrl(shortenRequest.originalUrl());
         url.setShortCode(shortCode);
         url.setCreatedBy(user);
-        url.setCreatedAt(Instant.now());// works well but not use now
+        url.setCreatedAt(Instant.now());
         url.setActive(true);
         url.setTotalClicks(0L);
 
@@ -50,8 +50,22 @@ public class UrlService {
                 baseUrl + "/" + url.getShortCode(),
                 url.getOriginalUrl(),
                 url.getTotalClicks(),
-                LocalDateTime.now(),//just for now later use url.getCreatedAt
+                url.getCreatedAt().toString(),
                 url.isActive()
         );
+    }
+
+    public List<UrlResponse> getMyUrls(UUID userId) {
+
+       return urlRepository.findByCreatedById(userId).stream()
+                .map(url -> new UrlResponse(
+                        url.getShortCode(),
+                        baseUrl + "/" + url.getShortCode(),
+                        url.getOriginalUrl(),
+                        url.getTotalClicks(),
+                        url.getCreatedAt().toString(),
+                        url.isActive()
+                ))
+                .toList();
     }
 }

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -79,5 +78,23 @@ public class UrlService {
         }
 
         urlRepository.delete(url);
+    }
+
+    public UrlResponse getAnalytics(String shortCode, UUID userId) {
+
+        Url url = urlRepository.findByShortCode(shortCode)
+                .orElseThrow(() -> new RuntimeException("URL not found"));
+        if (!url.getCreatedBy().getId().equals(userId)) {
+            throw new RuntimeException("You do not have permission to view these stats");
+        }
+
+        return new UrlResponse(
+                url.getShortCode(),
+                "http://localhost:8080" + "/" + url.getShortCode(),
+                url.getOriginalUrl(),
+                url.getTotalClicks(),
+                url.getCreatedAt().toString(),
+                url.isActive()
+        );
     }
 }

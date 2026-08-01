@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -67,5 +68,16 @@ public class UrlService {
                         url.isActive()
                 ))
                 .toList();
+    }
+
+    public void deleteUrl( String shortCode ,UUID usrId) {
+        Url url = urlRepository.findByShortCode(shortCode)
+                .orElseThrow(() -> new RuntimeException("Url not Found"));
+
+        if(!url.getCreatedBy().getId().equals(usrId)){
+            throw new RuntimeException("You do not have permission to delete this URL");
+        }
+
+        urlRepository.delete(url);
     }
 }

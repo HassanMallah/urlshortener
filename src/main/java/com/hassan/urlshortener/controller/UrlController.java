@@ -2,6 +2,7 @@ package com.hassan.urlshortener.controller;
 
 import com.hassan.urlshortener.dto.ShortenRequest;
 import com.hassan.urlshortener.dto.UrlResponse;
+import com.hassan.urlshortener.entity.Url;
 import com.hassan.urlshortener.serivce.UrlService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -34,5 +35,12 @@ public class UrlController {
 
         List<UrlResponse> allUrl = urlService.getMyUrls(userId);
         return ResponseEntity.ok(allUrl);
+    }
+
+    @DeleteMapping("/{shortCode}")
+    public ResponseEntity<Void> deleteUrl(@PathVariable String shortCode, @RequestParam UUID userId){
+
+        urlService.deleteUrl(shortCode, userId);
+        return ResponseEntity.noContent().build();
     }
 }
